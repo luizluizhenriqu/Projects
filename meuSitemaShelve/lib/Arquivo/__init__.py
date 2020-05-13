@@ -26,7 +26,20 @@ def verPessoas(arq):
     print(f'\033[33m{"Nº":<4}\033[34m{"NOME":<30}{"IDADE":>8}\033[m')
     print('-'*42)
     for key, item in enumerate(arq['lista']):
-        print(f'\t\033[33m{key+1:<4}\033[34m{item[0]:<30}{item[1]:>8}\033[m')
+        print(f'\t\033[33m{key+1:<4}\033[34m{item[0]:<25}{item[1]:>8}\033[m')
+    while True:
+        try:
+            resp = input('Gostaria de apagar um desses arquivos:? [S/N]').upper()
+            if resp in 'sS':
+                respInde = input('Qual nº:')
+                apagarPessoa(respInde)
+
+                print(f'Pessoa apagada') #adicionar nome de pessoa apagada na string
+                break
+            elif resp in 'nN':
+                break
+            else: raise ValueError
+        except: print('Opção invélidade, tente novamente. ')
     arq.close()
 
     #perguntar se quer apagar algum dado do arquivo
@@ -43,5 +56,5 @@ def cadastrarPessoa(arq, nome, idade=0):
 
 
 
-def apagarPessoa():
+def apagarPessoa(inde):
     pass
