@@ -39,6 +39,7 @@ def verPessoas(save):
         resp = input('Gostaria de apagar um desses arquivos:? [S/N]').upper()
         if resp in 'sS':
             apagarPessoa(save)
+            return None
         else:
             return None
 
@@ -58,6 +59,7 @@ def cadastrarPessoa(save, nome, idade=0):
     arq.close()
 
 def cadastrarAuto(save):
+    #função teste
     arq = shelve.open(save)
     randNome = ['lisandra', 'michael', 'marcos', 'ze carlos', 'washigton', 'vilma', 'daniele',
                 'michele', 'palyne', 'amanda', 'rayane', 'poliane', 'bruna', 'elaine', 'felipe']
