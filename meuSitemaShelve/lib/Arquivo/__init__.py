@@ -1,4 +1,6 @@
 import shelve
+from meuSitemaShelve.lib.interface import cabeçalho
+from random import randint
 
 def verificarArqExs(nome):
     #dever retornar bool
@@ -20,32 +22,34 @@ def criarArquivo(nome):
     print('\033[34mComo não há data um arquivo criado com sucesso\033[m')
 
 
-def verPessoas(arq):
-    print('okok')
-    arq = shelve.open(arq)
+def verPessoas(save):
+    print(' okok')
+    arq = shelve.open(save)
+    if len(arq['lista']) == 0:
+        #verificar se tem algum dado salvo na data base
+        print(' Nenhum dado salvo. ')
+        arq.close()
+        return False
     print(f'\033[33m{"Nº":<4}\033[34m{"NOME":<30}{"IDADE":>8}\033[m')
     print('-'*42)
     for key, item in enumerate(arq['lista']):
         print(f'\t\033[33m{key+1:<4}\033[34m{item[0]:<25}{item[1]:>8}\033[m')
     while True:
-        try:
-            resp = input('Gostaria de apagar um desses arquivos:? [S/N]').upper()
-            if resp in 'sS':
-                respInde = input('Qual nº:')
-                apagarPessoa(respInde)
 
-                print(f'Pessoa apagada') #adicionar nome de pessoa apagada na string
-                break
-            elif resp in 'nN':
-                break
-            else: raise ValueError
-        except: print('Opção invélidade, tente novamente. ')
+        resp = input('Gostaria de apagar um desses arquivos:? [S/N]').upper()
+        if resp in 'sS':
+            apagarPessoa(save)
+        else:
+            return None
+
+        print('Opção invélidade, tente novamente. ')
+        #print(e)
     arq.close()
 
     #perguntar se quer apagar algum dado do arquivo
 
-def cadastrarPessoa(arq, nome, idade=0):
-    arq = shelve.open(arq)
+def cadastrarPessoa(save, nome, idade=0):
+    arq = shelve.open(save)
     lista = arq['lista']
     dado = [nome.title(), idade]
     lista.append(dado)
@@ -53,8 +57,58 @@ def cadastrarPessoa(arq, nome, idade=0):
 
     arq.close()
 
+def cadastrarAuto(save):
+    arq = shelve.open(save)
+    randNome = ['lisandra', 'michael', 'marcos', 'ze carlos', 'washigton', 'vilma', 'daniele',
+                'michele', 'palyne', 'amanda', 'rayane', 'poliane', 'bruna', 'elaine', 'felipe']
+    lista = arq['lista']
+    for nome in randNome:
+        dado = [nome.title(), randint(1, 99)]
+        lista.append(dado)
+    arq['lista'] = lista
+    arq.close()
+    print('prontooooooooooooooooooooo')
 
 
 
-def apagarPessoa(inde):
-    pass
+
+
+def apagarPessoa(save, inde=0):
+    print('Apagando...')
+    arq = shelve.open(save)
+    while True:
+        if inde == 0:
+            try:
+                inde = int(input('Digite o número de cadastro da pessoa: '))
+                if inde == 0:
+                    raise ValueError
+            except:
+                print('Comando inválido, por favo tente novamente')
+            else: break
+        else:
+            print('pulou primeiro laço')
+            break
+    while True:
+        try:
+            resp=input(f'Você tem certeza que quer apagar {arq["lista"][inde-1][0]}?[S/N]')
+            if resp.isdigit() or resp not in 'SsNn': raise ValueError
+        except:
+            print('Comando inválido, por favo tente novamente: ')
+        else:
+            if resp in 'Ss':
+                lista = arq['lista']
+                print(f'apagando {lista[inde-1]}')
+                lista.pop(inde-1)
+                arq['lista'] = lista
+
+                break
+            else:
+                print('Comando cancelado. ')
+                break
+    arq.close()
+    return None
+
+
+
+    for item in arq['lista']:
+        print(item)

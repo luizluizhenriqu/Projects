@@ -1,10 +1,7 @@
-def cabeçalho(txt='', tam=42, soLinha=False):
+def cabeçalho(txt='', tam=42):
 
     def linha(extInicio='',extFim=''):
         print(extInicio, '-'*tam, extFim)
-    if soLinha:
-        linha('\033[36m','\033[m')
-        return
     linha('\033[36m','\033[m')
     print('\033[33m',txt.center(tam).upper(),'\033[m')
     linha('\033[36m','\033[m')
@@ -27,8 +24,8 @@ def menu(titulo, lista):
     while True:
         for cont, op in enumerate(lista):
             print(f'\t\033[33m{cont+1} - \033[34m{op}\033[m')
-        cabeçalho(soLinha=True)
+        cabeçalho()
 
-        return leiaInt('\033[35mSua opção: \033[m')
+        return leiaInt('\033[35m Sua opção: \033[m')
 
 
