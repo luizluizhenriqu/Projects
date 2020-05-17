@@ -23,8 +23,10 @@ def main():
             #Sair
             break
         elif resp == 5:
+            # teste apagado
             pass
         elif resp == 6:
+            #teste DEV auto adicionar contatos
             cadastrarAuto(arq)
         else: print('\033[31mPor favor digite um número valido: \033[m')
         sleep(0.9)

@@ -32,20 +32,18 @@ def verPessoas(save):
         return False
     print(f'\033[33m{"Nº":<4}\033[34m{"NOME":<30}{"IDADE":>8}\033[m')
     print('-'*42)
+    #mostrar lista
     for key, item in enumerate(arq['lista']):
         print(f'\t\033[33m{key+1:<4}\033[34m{item[0]:<25}{item[1]:>8}\033[m')
     while True:
-
+        #pergunta se quer apagar alguém após aparece a lista
         resp = input('Gostaria de apagar um desses arquivos:? [S/N]').upper()
         if resp in 'sS':
             apagarPessoa(save)
             return None
         else:
+            arq.close()
             return None
-
-        print('Opção invélidade, tente novamente. ')
-        #print(e)
-    arq.close()
 
     #perguntar se quer apagar algum dado do arquivo
 
@@ -79,6 +77,7 @@ def apagarPessoa(save, inde=0):
     print('Apagando...')
     arq = shelve.open(save)
     while True:
+        #Pergunta qual pessoa apagar
         if inde == 0:
             try:
                 inde = int(input('Digite o número de cadastro da pessoa: '))
@@ -91,6 +90,7 @@ def apagarPessoa(save, inde=0):
             print('pulou primeiro laço')
             break
     while True:
+        # Pergunta se tem certeza
         try:
             resp=input(f'Você tem certeza que quer apagar {arq["lista"][inde-1][0]}?[S/N]')
             if resp.isdigit() or resp not in 'SsNn': raise ValueError
@@ -98,6 +98,7 @@ def apagarPessoa(save, inde=0):
             print('Comando inválido, por favo tente novamente: ')
         else:
             if resp in 'Ss':
+                #Apagando pessoas da lista
                 lista = arq['lista']
                 print(f'apagando {lista[inde-1]}')
                 lista.pop(inde-1)
@@ -109,8 +110,3 @@ def apagarPessoa(save, inde=0):
                 break
     arq.close()
     return None
-
-
-
-    for item in arq['lista']:
-        print(item)
