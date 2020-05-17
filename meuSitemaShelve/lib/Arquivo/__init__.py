@@ -1,11 +1,12 @@
 import shelve
 from meuSitemaShelve.lib.interface import cabeçalho
-from random import randint
+from meuSitemaShelve.lib.Pessoas import Pessoa
+from random import randint,choice #disponivel somente na versão de dev
 
 def verificarArqExs(nome):
     #dever retornar bool
     try:
-        arq = shelve.open(nome,'r')
+        arq = shelve.open(nome, 'r')
     except:
         return False
     else:
@@ -20,6 +21,12 @@ def criarArquivo(nome):
     arq['lista'] = []
     arq.close()
     print('\033[34mComo não há data um arquivo criado com sucesso\033[m')
+
+def verClasses(save):
+    #DEV ver classes
+    arq = shelve.open(save)
+    for dado in arq['lista']:
+        print(dado.status())
 
 
 def verPessoas(save):
@@ -50,11 +57,47 @@ def verPessoas(save):
 def cadastrarPessoa(save, nome, idade=0):
     arq = shelve.open(save)
     lista = arq['lista']
-    dado = [nome.title(), idade]
+    dado = Pessoa(nome, idade, geraEmailSite(nome))
+    #implementação da classe pesso
+    #dado = [nome.title(), idade]
     lista.append(dado)
     arq['lista'] = lista
 
     arq.close()
+
+
+
+def geraEmailSite(nome, site=False):
+    '''
+    Função que gera automaticamente um email ou site
+    :param nome:
+    :param site: True pra gerar um sitey
+    :return:
+    '''
+    def geraNum(n):
+        # def pode ser simplificada e retorna uma string
+        while True:
+            listnum = [chr(n) for n in range(48, 58)]  # ↓↓↓↓
+            num = ''.join([choice(listnum) for i in range(n)])
+            # verificar se o primeiro dig de num é 0
+            if num[0] == '0':
+                continue
+            return num
+    saida = ('.com.br', '.com', '.org', '.dev')
+    provedor = ('g1', 'gmail', 'yahoo', 'outlook',
+                'hotmail', 'uol', 'terra', 'globomail',
+                'oimail', 'directmail', 'e-mail', 'plugoo')
+    person = ('moeda', 'solto', 'planet', 'ferros',
+              'mexicana',
+              geraNum(randint(2,4)))
+    if site:
+        site = 'www' + nome.lower().replace + choice(person) +choice(saida)
+        return site
+
+    email = nome.lower().replace(' ', '') + choice(person) + '@' + \
+            choice(provedor) + \
+            choice(saida)
+    return email
 
 def cadastrarAuto(save):
     #função teste
