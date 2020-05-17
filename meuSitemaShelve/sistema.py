@@ -8,7 +8,7 @@ def main():
         criarArquivo(arq)
     while True:
         resp = menu('DATABASE',['Ver Pessoas', 'Cadastra Pessoa', 'Apagar Pessoa',
-                                'Sair', 'Testar arq', 'teste cadastrar', 'Ver classes cadastradas'])
+                                'Sair', 'DEV Testar arq', 'DEV teste AUTO cadastrar', 'DEV Ver classes cadastradas'])
         if resp == 1:
             #Ver Pessoas
             verPessoas(arq)
@@ -31,8 +31,10 @@ def main():
             cadastrarAuto(arq)
         elif resp == 7:
             # teste DEV pra Ver classes salvas
-
+            # Função já aprimorada
+            pass
             verClasses(arq)
+
         else: print('\033[31mPor favor digite um número valido: \033[m')
         sleep(0.9)
 

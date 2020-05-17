@@ -22,13 +22,36 @@ def criarArquivo(nome):
     arq.close()
     print('\033[34mComo não há data um arquivo criado com sucesso\033[m')
 
-def verClasses(save):
+def verPessoas(save):
     #DEV ver classes
     arq = shelve.open(save)
-    for dado in arq['lista']:
-        print(dado.status())
+    #for dado in arq['lista']:
+    #    print(dado.status())
 
+    if len(arq['lista']) == 0:
+        #verificar se tem algum dado salvo na data base
+        print(' Nenhum dado salvo. ')
+        arq.close()
+        return False
+    print(f'\033[33m{"Nº":<4}\033[34m{"NOME":<30}{"IDADE":>8}\033[m')
+    print(f'\033[34m{"-"*70}\033[m')
+    #mostrar lista
+    for key, item in enumerate(arq['lista']):
+        print(f'\t\033[33m{key+1:<4}\033[34m'
+              f'{item.status()[0]:<19}'
+              f'{item.status()[1]:>8}\033[m '
+              f'{item.status()[2]}')
+    while True:
+        #pergunta se quer apagar alguém após aparece a lista
+        resp = input('Gostaria de apagar um desses arquivos:? [S/N]').upper()
+        if resp in 'sS':
+            apagarPessoa(save)
+            return None
+        else:
+            arq.close()
+            return None
 
+'''
 def verPessoas(save):
     print(' okok')
     arq = shelve.open(save)
@@ -53,7 +76,7 @@ def verPessoas(save):
             return None
 
     #perguntar se quer apagar algum dado do arquivo
-
+''' #Velho ver pessoas
 def cadastrarPessoa(save, nome, idade=0):
     arq = shelve.open(save)
     lista = arq['lista']
@@ -64,8 +87,6 @@ def cadastrarPessoa(save, nome, idade=0):
     arq['lista'] = lista
 
     arq.close()
-
-
 
 def geraEmailSite(nome, site=False):
     '''
@@ -106,7 +127,7 @@ def cadastrarAuto(save):
                 'michele', 'palyne', 'amanda', 'rayane', 'poliane', 'bruna', 'elaine', 'felipe']
     lista = arq['lista']
     for nome in randNome:
-        dado = [nome.title(), randint(1, 99)]
+        dado = Pessoa(nome.title(), randint(1, 99), geraEmailSite(nome.title()))
         lista.append(dado)
     arq['lista'] = lista
     arq.close()
@@ -135,7 +156,7 @@ def apagarPessoa(save, inde=0):
     while True:
         # Pergunta se tem certeza
         try:
-            resp=input(f'Você tem certeza que quer apagar {arq["lista"][inde-1][0]}?[S/N]')
+            resp=input(f'Você tem certeza que quer apagar {arq["lista"][inde-1].status()[0]}?[S/N]')
             if resp.isdigit() or resp not in 'SsNn': raise ValueError
         except:
             print('Comando inválido, por favo tente novamente: ')
